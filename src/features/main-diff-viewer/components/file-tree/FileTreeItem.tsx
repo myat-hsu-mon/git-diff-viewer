@@ -1,7 +1,7 @@
 //utils
 import { getFileExtension, parseFilePath } from '@/utils/diff';
 //utils
-import { getFileIcon, getIconColor } from '@/features/main-diff-viewer/utils/getFileIcon';
+import { getFileIcon, getIconColor } from '@/features/main-diff-viewer/utils/fileIconUtils.ts';
 import { cn } from '@/utils/cn';
 import { DiffHunk, FileDiff } from '@/features/main-diff-viewer/types/diff';
 

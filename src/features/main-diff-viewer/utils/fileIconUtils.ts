@@ -1,5 +1,4 @@
 import {
-  FileArchive,
   FileDiff,
   FileText,
   FileImage,
@@ -54,12 +53,6 @@ export const getFileIcon = (
     gif: FileImage,
     svg: FileImage,
     webp: FileImage,
-    // Archives
-    zip: FileArchive,
-    rar: FileArchive,
-    '7z': FileArchive,
-    tar: FileArchive,
-    gz: FileArchive,
     // Default
     default: FileText,
   };

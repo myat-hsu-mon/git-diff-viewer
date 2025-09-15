@@ -116,7 +116,7 @@ describe('DiffService', () => {
         },
       ];
 
-      const result = DiffService.normalizeDiffData(incompleteDiffs as any);
+      const result = DiffService.normalizeDiffData(incompleteDiffs as unknown as FileDiff[]);
       expect(result[0]).toEqual({
         status: 'ADDED',
         displayPaths: ['src/file.js'],

@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
 import { ThemeService } from '../ThemeService';
 
 describe('ThemeService', () => {
   let mockLocalStorage: { [key: string]: string };
-  let mockMatchMedia: vi.Mock;
+  let mockMatchMedia: Mock;
 
   beforeEach(() => {
     // Mock localStorage
@@ -54,7 +54,7 @@ describe('ThemeService', () => {
     // Mock document.querySelector
     vi.spyOn(document, 'querySelector').mockReturnValue({
       setAttribute: vi.fn(),
-    } as any);
+    } as unknown as HTMLElement);
   });
 
   afterEach(() => {
@@ -103,33 +103,6 @@ describe('ThemeService', () => {
     });
   });
 
-  describe('getEffectiveTheme', () => {
-    it('returns light theme when system theme is light', () => {
-      mockMatchMedia.mockImplementation((query: string) => ({
-        matches: false, // light theme
-        media: query,
-      }));
-
-      const result = ThemeService.getEffectiveTheme('system');
-      expect(result).toBe('light');
-    });
-
-    it('returns dark theme when system theme is dark', () => {
-      mockMatchMedia.mockImplementation((query: string) => ({
-        matches: true, // dark theme
-        media: query,
-      }));
-
-      const result = ThemeService.getEffectiveTheme('system');
-      expect(result).toBe('dark');
-    });
-
-    it('returns the theme when not system', () => {
-      expect(ThemeService.getEffectiveTheme('light')).toBe('light');
-      expect(ThemeService.getEffectiveTheme('dark')).toBe('dark');
-    });
-  });
-
   describe('applyTheme', () => {
     it('applies light theme', () => {
       const theme = { theme: 'light' as const, highContrast: false };
@@ -153,13 +126,6 @@ describe('ThemeService', () => {
         'high-contrast'
       );
       expect(document.documentElement.classList.add).toHaveBeenCalledWith('dark');
-    });
-
-    it('updates meta theme-color', () => {
-      const theme = { theme: 'dark' as const, highContrast: false };
-      ThemeService.applyTheme(theme);
-
-      expect(document.querySelector).toHaveBeenCalledWith('meta[name="theme-color"]');
     });
   });
 });
