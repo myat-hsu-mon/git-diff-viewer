@@ -1,8 +1,10 @@
 import React from 'react';
+//components
 import { StatusBadge as UIStatusBadge } from '@/components/ui/Badge';
+//types
 import type { DiffStatus } from '@/features/main-diff-viewer/types/diff';
 
-export interface StatusBadgeProps {
+interface StatusBadgeProps {
   status: DiffStatus;
   size?: 'sm' | 'md' | 'lg';
   showIcon?: boolean;

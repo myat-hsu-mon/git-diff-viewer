@@ -1,6 +1,8 @@
-import type { DiffLine } from '@/features/main-diff-viewer/types/diff';
-import { getThemeColors } from '@/features/main-diff-viewer/utils/hunk';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+//types
+import type { DiffLine } from '@/features/main-diff-viewer/types/diff';
+//utils
+import { getThemeColors } from '@/features/main-diff-viewer/utils/getThemeColors';
 
 interface LineSegmentProps {
   part: DiffLine['parts'][0];

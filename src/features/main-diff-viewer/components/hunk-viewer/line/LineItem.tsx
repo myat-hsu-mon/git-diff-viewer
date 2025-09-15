@@ -5,11 +5,14 @@ import { cn } from '@/utils/cn';
 import { getLanguageFromExtension } from '@/utils/diff';
 //types
 import type { DiffLine } from '@/features/main-diff-viewer/types/diff';
+//components
 import LineNumber from './LineNumber';
 import LinePrefix from './LinePrefix';
 import LineContent from './LineContent';
+//types
 import { LINE_TYPES } from '@/features/main-diff-viewer/types/hunk';
-import { getThemeColors } from '@/features/main-diff-viewer/utils/hunk';
+//utils
+import { getThemeColors } from '@/features/main-diff-viewer/utils/getThemeColors';
 
 // CSS Classes
 const LINE_BASE_CLASSES = 'flex min-h-[1.5rem] font-mono text-sm leading-6';

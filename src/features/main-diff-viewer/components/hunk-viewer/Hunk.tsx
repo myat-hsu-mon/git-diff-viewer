@@ -1,10 +1,16 @@
 import { useMemo } from 'react';
 //types
-import type { HunkProps, DiffLine } from '@/features/main-diff-viewer/types/diff';
+import type { DiffLine, DiffHunk } from '@/features/main-diff-viewer/types/diff';
 //components
 import Collapsible from '@/components/ui/Collapsible';
 import DiffLineItem from './line/LineItem';
 
+interface HunkProps {
+  hunk: DiffHunk;
+  isExpanded: boolean;
+  onExpansionChange: (expanded: boolean) => void;
+  fileExtension?: string;
+}
 export default function Hunk({ hunk, isExpanded, onExpansionChange, fileExtension }: HunkProps) {
   const hasChanges = hunk.beforeDiff.length > 0 || hunk.afterDiff.length > 0;
 

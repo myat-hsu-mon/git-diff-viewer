@@ -1,8 +1,14 @@
-import { LINE_TYPES, PREFIX_SYMBOLS } from '@/features/main-diff-viewer/types/hunk';
-import { getThemeColors } from '@/features/main-diff-viewer/utils/hunk';
+import { LINE_TYPES } from '@/features/main-diff-viewer/types/hunk';
+//utils
+import { getThemeColors } from '@/features/main-diff-viewer/utils/getThemeColors';
 import { cn } from '@/utils/cn';
 
 const PREFIX_CLASSES = 'flex-shrink-0 w-6 text-center font-bold select-none';
+const PREFIX_SYMBOLS = {
+  [LINE_TYPES.ADDED]: '+',
+  [LINE_TYPES.REMOVED]: '-',
+  [LINE_TYPES.CONTEXT]: ' ',
+} as const;
 
 interface LinePrefixProps {
   lineType: 'added' | 'removed' | 'context';

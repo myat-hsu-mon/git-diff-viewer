@@ -5,8 +5,4 @@ export const LINE_TYPES = {
   CONTEXT: 'context',
 } as const;
 
-export const PREFIX_SYMBOLS = {
-  [LINE_TYPES.ADDED]: '+',
-  [LINE_TYPES.REMOVED]: '-',
-  [LINE_TYPES.CONTEXT]: ' ',
-} as const;
+

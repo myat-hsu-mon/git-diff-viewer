@@ -1,11 +1,19 @@
 import { useRef } from 'react';
 //components
-import type { FileTreeProps } from '@/features/main-diff-viewer/types/diff';
 import FileTreeItem from './FileTreeItem';
 //hooks
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useDiffViewer } from '../../hooks/useDiffViewer';
+//types
+import { FileDiff } from '../../types/diff';
 
+interface FileTreeProps {
+  diffs: FileDiff[];
+  selectedFiles: Set<number>;
+  onFileSelectionChange: (selectedFiles: Set<number>) => void;
+  visible: boolean;
+  width?: number;
+}
 export default function FileTree({
   diffs,
   selectedFiles,

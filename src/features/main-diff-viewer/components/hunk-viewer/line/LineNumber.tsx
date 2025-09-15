@@ -1,4 +1,4 @@
-import { getThemeColors } from '@/features/main-diff-viewer/utils/hunk';
+import { getThemeColors } from '@/features/main-diff-viewer/utils/getThemeColors';
 import { cn } from '@/utils/cn';
 
 const LINE_NUMBER_CLASSES = 'flex-shrink-0 w-16 px-2 text-right text-muted-foreground select-none';

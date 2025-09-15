@@ -3,14 +3,17 @@ import { FileCode, FileText, AlertCircle } from 'lucide-react';
 //utils
 import { getFileExtension } from '@/utils/diff';
 //types
-import type { DiffHunk, DiffViewerProps } from '@/features/main-diff-viewer/types/diff';
+import type { DiffHunk, FileDiff } from '@/features/main-diff-viewer/types/diff';
 //components
 import { StatusBadge } from '../StatusBadge';
+import Hunk from './Hunk';
 //contexts
 import { useDiffViewerContext } from '@/features/main-diff-viewer/contexts/DiffViewerContext';
-import Hunk from './Hunk';
 
-export default function HunkViewerPanel({ diffs }: DiffViewerProps) {
+interface HunkViewerPanelProps {
+  diffs: FileDiff[];
+}
+export default function HunkViewerPanel({ diffs }: HunkViewerPanelProps) {
   const { state } = useDiffViewerContext();
   const [expandedHunks, setExpandedHunks] = useState<Map<number, Set<number>>>(new Map());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
