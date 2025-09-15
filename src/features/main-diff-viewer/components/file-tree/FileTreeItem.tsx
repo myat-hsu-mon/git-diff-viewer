@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 //utils
 import { getFileExtension, parseFilePath } from '@/utils/diff';
 //utils
-import { getFileIcon } from '@/features/main-diff-viewer/utils/getFileIcon';
+import { getFileIcon, getIconColor } from '@/features/main-diff-viewer/utils/getFileIcon';
 import { cn } from '@/utils/cn';
 
 interface FileTreeItemProps {
@@ -25,7 +25,9 @@ export default function FileTreeItem({
   const path = diff.newPath || diff.oldPath || diff.displayPaths[0] || '';
   const { filename, directory } = parseFilePath(path);
   const extension = getFileExtension(filename);
+
   const FileIcon = getFileIcon(extension, diff.status);
+  const fileIconColor = getIconColor(diff.status);
 
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
@@ -59,7 +61,7 @@ export default function FileTreeItem({
     >
       {/* File Icon */}
       <div className='flex-shrink-0'>
-        <FileIcon className='h-4 w-4 text-muted-foreground' />
+        <FileIcon className={cn('h-5 w-5 text-muted-foreground', fileIconColor)} />
       </div>
 
       {/* File Info */}

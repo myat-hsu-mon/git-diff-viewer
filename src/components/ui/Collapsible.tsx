@@ -46,7 +46,8 @@ export default function Collapsible({
       className={cn(
         'w-full',
         className,
-        !className?.includes('border-0') && 'border-[#EDEEEF] dark:border-[#1E2429]'
+        'bg-[#F7F8FA] dark:bg-[#1E2429]',
+        !className?.includes('border-0') && 'border-[#EDEEEF] dark:border-[#1E2429] '
       )}
     >
       {trigger && (
@@ -113,5 +114,5 @@ export interface CollapsibleContentProps {
 }
 
 export const CollapsibleContent: React.FC<CollapsibleContentProps> = ({ children, className }) => {
-  return <div className={cn('transition-all duration-200 ease-in-out', className)}>{children}</div>;
+  return <div className={cn('transition-all duration-200 ease-in-out bg-white', className)}>{children}</div>;
 };

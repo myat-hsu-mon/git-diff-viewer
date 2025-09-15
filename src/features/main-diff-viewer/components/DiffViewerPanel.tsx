@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FileCode, FileText, AlertCircle } from 'lucide-react';
 //utils
 import { getFileExtension } from '@/utils/diff';
@@ -13,6 +13,14 @@ import { useDiffViewerContext } from '@/features/main-diff-viewer/contexts/DiffV
 export default function DiffViewerPanel({ diffs }: DiffViewerProps) {
   const { state } = useDiffViewerContext();
   const [expandedHunks, setExpandedHunks] = useState<Map<number, Set<number>>>(new Map());
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Reset scroll position when selected file changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  }, [state.selectedFiles]);
 
   const handleHunkExpansionChange = (fileIndex: number, hunkIndex: number, expanded: boolean) => {
     setExpandedHunks(prev => {
@@ -59,9 +67,14 @@ export default function DiffViewerPanel({ diffs }: DiffViewerProps) {
       {/* Content */}
       <div className='flex-1 overflow-hidden'>
         {selectedDiff ? (
-          <div className='h-full overflow-auto p-4'>
+          <div
+            key={`diff-${Array.from(state.selectedFiles)[0] ?? 0}`}
+            ref={scrollContainerRef}
+            className='h-full overflow-auto'
+            style={{ minHeight: 0 }}
+          >
             {/* File Header */}
-            <div className='mb-4 p-3 bg-[#EDEEEF] dark:bg-[#1E2429] rounded-lg'>
+            <div className='mb-4 p-4 bg-[#F7F8FA] dark:bg-[#1E2429]'>
               <div className='flex items-center gap-2 mb-2'>
                 {fileExtension ? (
                   <FileCode className='h-5 w-5 text-muted-foreground' />
@@ -85,7 +98,7 @@ export default function DiffViewerPanel({ diffs }: DiffViewerProps) {
             </div>
 
             {/* Hunks */}
-            <div className='space-y-4'>
+            <div className='space-y-4 px-4 pb-4'>
               {selectedDiff.hunks.map((hunk: DiffHunk, hunkIndex: number) => (
                 <HunkViewer
                   key={hunkIndex}

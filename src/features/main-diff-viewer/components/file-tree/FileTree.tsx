@@ -43,8 +43,10 @@ export default function FileTree({
 
   return (
     <div className='border-r bg-background flex flex-col' style={{ width }}>
-      <div className='border-b p-4 flex items-center gap-6 text-sm text-muted-foreground'>
-        <span className='font-bold text-lg'>{stats.totalFiles} files changed</span>
+      <div className='border-b px-4 py-4.5 flex items-center gap-6 text-sm text-muted-foreground bg-[#F7F8FA] dark:bg-[#1E2429]'>
+        <span className='font-bold text-base'>
+          {stats.totalFiles} file{stats.totalFiles > 1 ? 's' : ''} changed
+        </span>
       </div>
 
       {/* File List */}
