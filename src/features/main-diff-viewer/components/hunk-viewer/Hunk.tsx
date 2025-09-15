@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import type { DiffLine, DiffHunk } from '@/features/main-diff-viewer/types/diff';
 //components
 import Collapsible from '@/components/ui/Collapsible';
-import DiffLineItem from './line/LineItem';
+import DiffLineItem from './line/DiffLineItem';
 
 interface HunkProps {
   hunk: DiffHunk;
@@ -47,8 +47,6 @@ export default function Hunk({ hunk, isExpanded, onExpansionChange, fileExtensio
   const headerContent = hunk.enclosingBlock ? `${hunkHeader} ${hunk.enclosingBlock}` : hunkHeader;
 
   if (!hasChanges) return null;
-
-  console.log({ unifiedLines });
 
   return (
     <div className='border rounded-lg overflow-hidden'>
