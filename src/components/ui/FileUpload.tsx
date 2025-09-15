@@ -83,7 +83,7 @@ export default function FileUpload() {
             </h3>
             <p className='text-sm text-muted-foreground mb-4'>Supports JSON format diff files</p>
 
-            <Button onClick={() => fileInputRef.current?.click()}>
+            <Button onClick={() => fileInputRef.current?.click()} style={{ cursor: 'pointer' }}>
               <FileText className='h-4 w-4 mr-2' />
               Choose File
             </Button>
