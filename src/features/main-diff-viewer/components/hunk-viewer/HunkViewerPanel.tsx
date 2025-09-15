@@ -5,12 +5,12 @@ import { getFileExtension } from '@/utils/diff';
 //types
 import type { DiffHunk, DiffViewerProps } from '@/features/main-diff-viewer/types/diff';
 //components
-import { StatusBadge } from './StatusBadge';
-import HunkViewer from './hunk-viewer/HunkViewer';
+import { StatusBadge } from '../StatusBadge';
 //contexts
 import { useDiffViewerContext } from '@/features/main-diff-viewer/contexts/DiffViewerContext';
+import Hunk from './Hunk';
 
-export default function DiffViewerPanel({ diffs }: DiffViewerProps) {
+export default function HunkViewerPanel({ diffs }: DiffViewerProps) {
   const { state } = useDiffViewerContext();
   const [expandedHunks, setExpandedHunks] = useState<Map<number, Set<number>>>(new Map());
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -100,7 +100,7 @@ export default function DiffViewerPanel({ diffs }: DiffViewerProps) {
             {/* Hunks */}
             <div className='space-y-4 px-4 pb-4'>
               {selectedDiff.hunks.map((hunk: DiffHunk, hunkIndex: number) => (
-                <HunkViewer
+                <Hunk
                   key={hunkIndex}
                   hunk={hunk}
                   isExpanded={

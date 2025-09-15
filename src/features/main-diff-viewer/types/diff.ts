@@ -74,7 +74,7 @@ export interface DiffViewerProps {
   onFileSelectionChange?: (selectedFiles: Set<number>) => void;
 }
 
-export interface HunkViewerProps {
+export interface HunkProps {
   hunk: DiffHunk;
   isExpanded: boolean;
   onExpansionChange: (expanded: boolean) => void;

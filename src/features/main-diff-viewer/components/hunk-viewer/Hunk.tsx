@@ -1,16 +1,11 @@
 import { useMemo } from 'react';
 //types
-import type { HunkViewerProps, DiffLine } from '@/features/main-diff-viewer/types/diff';
+import type { HunkProps, DiffLine } from '@/features/main-diff-viewer/types/diff';
 //components
-import DiffLineComponent from './DiffLineItem';
 import Collapsible from '@/components/ui/Collapsible';
+import DiffLineItem from './line/LineItem';
 
-export default function HunkViewer({
-  hunk,
-  isExpanded,
-  onExpansionChange,
-  fileExtension,
-}: HunkViewerProps) {
+export default function Hunk({ hunk, isExpanded, onExpansionChange, fileExtension }: HunkProps) {
   const hasChanges = hunk.beforeDiff.length > 0 || hunk.afterDiff.length > 0;
 
   // Create unified diff view
@@ -42,12 +37,12 @@ export default function HunkViewer({
     return lines;
   }, [hunk.beforeDiff, hunk.afterDiff]);
 
-  console.log({ unifiedLines });
-
   const hunkHeader = `@@ -${hunk.oldLineStart},${hunk.oldLineCount} +${hunk.newLineStart},${hunk.newLineCount} @@`;
   const headerContent = hunk.enclosingBlock ? `${hunkHeader} ${hunk.enclosingBlock}` : hunkHeader;
 
   if (!hasChanges) return null;
+
+  console.log({ unifiedLines });
 
   return (
     <div className='border rounded-lg overflow-hidden'>
@@ -71,7 +66,7 @@ export default function HunkViewer({
         {/* Hunk Content */}
         <div className='bg-background rounded-b-lg'>
           {unifiedLines.map((lineData, index) => (
-            <DiffLineComponent
+            <DiffLineItem
               key={`${lineData.type}-${index}`}
               line={lineData.line}
               fileExtension={fileExtension || ''}

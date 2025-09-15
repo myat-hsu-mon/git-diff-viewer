@@ -3,8 +3,8 @@ import { useDiffViewerContext } from '@/features/main-diff-viewer/contexts/DiffV
 //components
 import Header from '@/layout/Header';
 import FileUpload from '@/components/ui/FileUpload';
-import DiffViewerPanel from '@/features/main-diff-viewer/components/DiffViewerPanel';
 import FileTree from '@/features/main-diff-viewer/components/file-tree/FileTree';
+import HunkViewerPanel from '../components/hunk-viewer/HunkViewerPanel';
 
 export default function MainDiffViewerPage() {
   const { diffs, state, setSelectedFiles } = useDiffViewerContext();
@@ -35,7 +35,7 @@ export default function MainDiffViewerPage() {
 
           {/* Main Content */}
           <div className='flex-1 flex flex-col overflow-hidden'>
-            <DiffViewerPanel diffs={diffs} />
+            <HunkViewerPanel diffs={diffs} />
           </div>
         </div>
       )}

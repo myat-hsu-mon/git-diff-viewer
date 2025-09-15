@@ -32,7 +32,6 @@ export const getFileIcon = (
   extension: string,
   status: DiffStatus
 ): React.ForwardRefExoticComponent<Omit<LucideProps, 'ref'>> => {
-  console.log({ extension, status });
   if (supportsSyntaxHighlighting(extension)) {
     switch (status) {
       case 'ADDED':
