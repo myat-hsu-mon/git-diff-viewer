@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useRef } from 'react';
 //components
 import type { FileTreeProps } from '@/features/main-diff-viewer/types/diff';
 import FileTreeItem from './FileTreeItem';
@@ -14,7 +14,7 @@ export default function FileTree({
   width = 300,
 }: FileTreeProps) {
   const { stats } = useDiffViewer(diffs);
-  const parentRef = React.useRef<HTMLDivElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
 
   // Create virtual list for performance with large file lists
   const virtualizer = useVirtualizer({
@@ -24,20 +24,13 @@ export default function FileTree({
     overscan: 5,
   });
 
-  const handleFileSelect = useCallback(
-    (fileIndex: number) => {
-      console.log('fileIndex', fileIndex);
-      onFileSelectionChange(new Set([fileIndex]));
-    },
-    [selectedFiles, onFileSelectionChange]
-  );
+  const handleFileSelect = (fileIndex: number) => {
+    onFileSelectionChange(new Set([fileIndex]));
+  };
 
-  const handleFileToggleExpansion = useCallback(
-    (fileIndex: number) => {
-      handleFileSelect(fileIndex);
-    },
-    [handleFileSelect]
-  );
+  const handleFileToggleExpansion = (fileIndex: number) => {
+    handleFileSelect(fileIndex);
+  };
 
   if (!visible) return null;
 

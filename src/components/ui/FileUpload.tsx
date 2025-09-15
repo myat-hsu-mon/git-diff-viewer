@@ -1,57 +1,48 @@
 import { useDiffViewerContext } from '@/features/main-diff-viewer/contexts/DiffViewerContext';
 import { AlertCircle, FileText, Loader2, Upload } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
-import { Button } from './Button';
+import React, { useState, useRef, DragEvent, ChangeEvent } from 'react';
+import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';
 
 export default function FileUpload() {
   const { loadDiffs, loading, error } = useDiffViewerContext();
   const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = useCallback(
-    async (file: File) => {
-      if (file && file.type === 'application/json') {
-        await loadDiffs(file);
-      }
-    },
-    [loadDiffs]
-  );
+  const handleFileSelect = async (file: File) => {
+    if (file && file.type === 'application/json') {
+      await loadDiffs(file);
+    }
+  };
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragOver(false);
-
-      const files = Array.from(e.dataTransfer.files);
-      const jsonFile = files.find(file => file.type === 'application/json');
-
-      if (jsonFile) {
-        handleFileSelect(jsonFile);
-      }
-    },
-    [handleFileSelect]
-  );
-
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(true);
-  }, []);
-
-  const handleDragLeave = useCallback((e: React.DragEvent) => {
+  const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     setDragOver(false);
-  }, []);
 
-  const handleFileInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        handleFileSelect(file);
-      }
-    },
-    [handleFileSelect]
-  );
+    const files = Array.from(e.dataTransfer.files);
+    const jsonFile = files.find(file => file.type === 'application/json');
+
+    if (jsonFile) {
+      handleFileSelect(jsonFile);
+    }
+  };
+
+  const handleDragOver = (e: DragEvent) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+  };
+
+  const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
 
   return (
     <div

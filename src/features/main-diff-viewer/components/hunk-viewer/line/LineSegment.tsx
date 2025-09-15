@@ -1,6 +1,5 @@
-import { DiffLine } from '@/features/main-diff-viewer/types/diff';
+import type { DiffLine } from '@/features/main-diff-viewer/types/diff';
 import { getThemeColors } from '@/features/main-diff-viewer/utils/hunk';
-import { useMemo } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 interface LineSegmentProps {
@@ -10,31 +9,25 @@ interface LineSegmentProps {
   isDark: boolean;
 }
 export default function LineSegment({ part, language, isMultipleParts, isDark }: LineSegmentProps) {
-  const { leadingSpaces, actualContent } = useMemo(() => {
-    const leadingSpacesMatch = part.content.match(/^(\s*)/);
-    return {
-      leadingSpaces: leadingSpacesMatch?.[1] || '',
-      actualContent: part.content.slice(leadingSpacesMatch?.[1]?.length || 0),
-    };
-  }, [part.content]);
+  const leadingSpacesMatch = part.content.match(/^(\s*)/);
+  const leadingSpaces = leadingSpacesMatch?.[1] || '';
+  const actualContent = part.content.slice(leadingSpacesMatch?.[1]?.length || 0);
 
-  const highlightStyle = useMemo(() => {
-    if (!isMultipleParts) return { background: 'transparent' };
+  const colors = getThemeColors(isDark);
+  const colorMap = {
+    ADDED: colors.added,
+    REMOVED: colors.removed,
+  };
 
-    const colors = getThemeColors(isDark);
-    const colorMap = {
-      ADDED: colors.added,
-      REMOVED: colors.removed,
-    };
-
-    const selectedColors = colorMap[part.status as keyof typeof colorMap];
-    return selectedColors
+  const highlightColors = colorMap[part.status as keyof typeof colorMap];
+  const highlightStyle = !isMultipleParts
+    ? { background: 'transparent' }
+    : highlightColors
       ? {
-          background: selectedColors.highlightBackground,
-          color: selectedColors.textColor,
+          background: highlightColors.highlightBackground,
+          color: highlightColors.textColor,
         }
       : { background: 'transparent' };
-  }, [isMultipleParts, part.status, isDark]);
 
   return (
     <span className='flex'>

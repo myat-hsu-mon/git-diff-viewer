@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 //contexts
 import { useDiffViewerContext } from '@/features/main-diff-viewer/contexts/DiffViewerContext';
 //utils
@@ -26,16 +25,13 @@ interface DiffLineItemProps {
 export default function DiffLineItem({ line, fileExtension, lineType }: DiffLineItemProps) {
   const { theme } = useDiffViewerContext();
 
-  const language = useMemo(() => getLanguageFromExtension(fileExtension), [fileExtension]);
   const isDark = theme.theme === 'dark';
-  const isMultipleParts = useMemo(() => line.parts.length > 1, [line.parts.length]);
 
-  const lineNumber = useMemo(
-    () => (lineType === LINE_TYPES.ADDED ? (line.newN ?? 0) : (line.oldN ?? 0)),
-    [lineType, line.newN, line.oldN]
-  );
+  const language = getLanguageFromExtension(fileExtension);
+  const colors = getThemeColors(isDark)[lineType];
 
-  const colors = useMemo(() => getThemeColors(isDark)[lineType], [isDark, lineType]);
+  const isMultipleParts = line.parts.length > 1;
+  const lineNumber = lineType === LINE_TYPES.ADDED ? (line.newN ?? 0) : (line.oldN ?? 0);
 
   return (
     <div className={cn(LINE_BASE_CLASSES, colors.background)}>

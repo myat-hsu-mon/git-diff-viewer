@@ -1,12 +1,12 @@
-import { useCallback } from 'react';
 //utils
 import { getFileExtension, parseFilePath } from '@/utils/diff';
 //utils
 import { getFileIcon, getIconColor } from '@/features/main-diff-viewer/utils/getFileIcon';
 import { cn } from '@/utils/cn';
+import { DiffHunk, FileDiff } from '@/features/main-diff-viewer/types/diff';
 
 interface FileTreeItemProps {
-  diff: any;
+  diff: FileDiff;
   index: number;
   isSelected: boolean;
   isExpanded: boolean;
@@ -29,21 +29,15 @@ export default function FileTreeItem({
   const FileIcon = getFileIcon(extension, diff.status);
   const fileIconColor = getIconColor(diff.status);
 
-  const handleClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      onSelect();
-    },
-    [onSelect]
-  );
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onSelect();
+  };
 
-  const handleDoubleClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      onToggleExpansion();
-    },
-    [onToggleExpansion]
-  );
+  const handleDoubleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleExpansion();
+  };
 
   return (
     <div
@@ -75,10 +69,10 @@ export default function FileTreeItem({
       {/* File Stats */}
       <div className='flex-shrink-0 text-xs text-muted-foreground'>
         <div className='text-right text-green-600'>
-          +{diff.hunks.reduce((acc: number, hunk: any) => acc + hunk.afterDiff.length, 0)}
+          +{diff.hunks.reduce((acc: number, hunk: DiffHunk) => acc + hunk.afterDiff.length, 0)}
         </div>
         <div className='text-right text-red-600'>
-          -{diff.hunks.reduce((acc: number, hunk: any) => acc + hunk.beforeDiff.length, 0)}
+          -{diff.hunks.reduce((acc: number, hunk: DiffHunk) => acc + hunk.beforeDiff.length, 0)}
         </div>
       </div>
     </div>

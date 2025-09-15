@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 //types
 import type { FileDiff, DiffViewerState, ThemeState } from '@/features/main-diff-viewer/types/diff';
 //services
@@ -51,12 +51,12 @@ export default function DiffViewerProvider({
   children,
   initialDiffs = [],
 }: DiffViewerProviderProps) {
-  const [diffs, setDiffs] = React.useState<FileDiff[]>(initialDiffs);
-  const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const [diffs, setDiffs] = useState<FileDiff[]>(initialDiffs);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Initialize theme from localStorage
-  const [theme, setThemeState] = React.useState<ThemeState>(() => ThemeService.loadTheme());
+  const [theme, setThemeState] = useState<ThemeState>(() => ThemeService.loadTheme());
 
   // Apply theme when it changes
   useEffect(() => {
@@ -68,44 +68,41 @@ export default function DiffViewerProvider({
   const diffViewer = useDiffViewer(diffs);
 
   // Load diffs from file
-  const loadDiffs = useCallback(
-    async (file: File) => {
-      setLoading(true);
-      setError(null);
+  const loadDiffs = async (file: File) => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const data = await DiffService.loadFromFile(file);
+    try {
+      const data = await DiffService.loadFromFile(file);
 
-        if (!DiffService.validateDiffData(data)) {
-          throw new Error('Invalid diff data format');
-        }
-
-        const normalizedData = DiffService.normalizeDiffData(data);
-        console.log({ normalizedData });
-        setDiffs(normalizedData); //initialize diffs value
-
-        // Reset state for new data
-        diffViewer.resetState();
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load diff file');
-      } finally {
-        setLoading(false);
+      if (!DiffService.validateDiffData(data)) {
+        throw new Error('Invalid diff data format');
       }
-    },
-    [diffViewer]
-  );
+
+      const normalizedData = DiffService.normalizeDiffData(data);
+      console.log({ normalizedData });
+      setDiffs(normalizedData); //initialize diffs value
+
+      // Reset state for new data
+      diffViewer.resetState();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load diff file');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Clear diffs
-  const clearDiffs = useCallback(() => {
+  const clearDiffs = () => {
     setDiffs([]);
     setError(null);
     diffViewer.resetState();
-  }, [diffViewer]);
+  };
 
   // Set theme
-  const setTheme = useCallback((newTheme: ThemeState) => {
+  const setTheme = (newTheme: ThemeState) => {
     setThemeState(newTheme);
-  }, []);
+  };
 
   const contextValue: DiffViewerContextValue = {
     // State
@@ -134,6 +131,7 @@ export default function DiffViewerProvider({
 /**
  * Hook to use the DiffViewer context
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function useDiffViewerContext(): DiffViewerContextValue {
   const context = useContext(DiffViewerContext);
 

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState } from 'react';
 import type { FileDiff, DiffViewerState, ThemeState } from '@/features/main-diff-viewer/types/diff';
 import { calculateDiffStats } from '@/utils/diff';
 
@@ -30,9 +30,7 @@ export function useDiffViewer(
   diffs: FileDiff[],
   options: UseDiffViewerOptions = {}
 ): UseDiffViewerReturn {
-  const {
-    initialTheme = { theme: 'system', highContrast: false },
-  } = options;
+  const { initialTheme = { theme: 'system', highContrast: false } } = options;
 
   const [state, setState] = useState<DiffViewerState>(() => ({
     selectedFiles: new Set([0]),
@@ -42,13 +40,13 @@ export function useDiffViewer(
 
   const [theme, setTheme] = useState<ThemeState>(initialTheme);
 
-  const stats = useMemo(() => calculateDiffStats(diffs), [diffs]);
+  const stats = calculateDiffStats(diffs);
 
-  const setSelectedFiles = useCallback((files: Set<number>) => {
+  const setSelectedFiles = (files: Set<number>) => {
     setState(prev => ({ ...prev, selectedFiles: files }));
-  }, []);
+  };
 
-  const toggleFileSelection = useCallback((fileIndex: number) => {
+  const toggleFileSelection = (fileIndex: number) => {
     setState(prev => {
       const newSelectedFiles = new Set(prev.selectedFiles);
       if (newSelectedFiles.has(fileIndex)) {
@@ -58,20 +56,20 @@ export function useDiffViewer(
       }
       return { ...prev, selectedFiles: newSelectedFiles };
     });
-  }, []);
+  };
 
-  const selectAllFiles = useCallback(() => {
+  const selectAllFiles = () => {
     setState(prev => ({
       ...prev,
       selectedFiles: new Set(diffs.map((_, index) => index)),
     }));
-  }, [diffs]);
+  };
 
-  const clearFileSelection = useCallback(() => {
+  const clearFileSelection = () => {
     setState(prev => ({ ...prev, selectedFiles: new Set() }));
-  }, []);
+  };
 
-  const toggleFileExpansion = useCallback((fileIndex: number) => {
+  const toggleFileExpansion = (fileIndex: number) => {
     setState(prev => {
       const newExpandedFiles = new Set(prev.expandedFiles);
       if (newExpandedFiles.has(fileIndex)) {
@@ -81,9 +79,9 @@ export function useDiffViewer(
       }
       return { ...prev, expandedFiles: newExpandedFiles };
     });
-  }, []);
+  };
 
-  const toggleHunkExpansion = useCallback((fileIndex: number, hunkIndex: number) => {
+  const toggleHunkExpansion = (fileIndex: number, hunkIndex: number) => {
     setState(prev => {
       const newExpandedHunks = new Map(prev.expandedHunks);
       const fileHunks = newExpandedHunks.get(fileIndex) || new Set();
@@ -98,15 +96,15 @@ export function useDiffViewer(
       newExpandedHunks.set(fileIndex, newFileHunks);
       return { ...prev, expandedHunks: newExpandedHunks };
     });
-  }, []);
+  };
 
-  const resetState = useCallback(() => {
+  const resetState = () => {
     setState({
       selectedFiles: new Set([0]),
       expandedFiles: new Set(),
       expandedHunks: new Map(),
     });
-  }, []);
+  };
 
   return {
     // State
