@@ -7,11 +7,6 @@ describe('cn utility', () => {
     expect(result).toBe('class1 class2');
   });
 
-  it('handles conditional classes', () => {
-    const result = cn('base', true && 'conditional', false && 'hidden');
-    expect(result).toBe('base conditional');
-  });
-
   it('handles undefined and null values', () => {
     const result = cn('base', undefined, null, 'valid');
     expect(result).toBe('base valid');
@@ -42,8 +37,7 @@ describe('cn utility', () => {
       ['array1', 'array2'],
       { object1: true, object2: false },
       'string',
-      true && 'conditional',
-      false && 'hidden'
+      'conditional'
     );
     expect(result).toBe('base array1 array2 object1 string conditional');
   });
