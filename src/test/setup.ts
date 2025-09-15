@@ -1,6 +1,16 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
+// Type declarations for global objects
+declare global {
+  var ResizeObserver: unknown;
+  var IntersectionObserver: unknown;
+  var URL: {
+    createObjectURL: (obj: unknown) => string;
+    revokeObjectURL: (url: string) => void;
+  };
+}
+
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
