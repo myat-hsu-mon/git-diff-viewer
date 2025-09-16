@@ -7,10 +7,9 @@ import { getThemeColors } from '@/features/main-diff-viewer/utils/getThemeColors
 interface LineSegmentProps {
   part: DiffLine['parts'][0];
   language: string;
-  isMultipleParts: boolean;
   isDark: boolean;
 }
-export default function LineSegment({ part, language, isMultipleParts, isDark }: LineSegmentProps) {
+export default function LineSegment({ part, language, isDark }: LineSegmentProps) {
   const leadingSpacesMatch = part.content.match(/^(\s*)/);
   const leadingSpaces = leadingSpacesMatch?.[1] || '';
   const actualContent = part.content.slice(leadingSpacesMatch?.[1]?.length || 0);
@@ -22,14 +21,12 @@ export default function LineSegment({ part, language, isMultipleParts, isDark }:
   };
 
   const highlightColors = colorMap[part.status as keyof typeof colorMap];
-  const highlightStyle = !isMultipleParts
-    ? { background: 'transparent' }
-    : highlightColors
-      ? {
-          background: highlightColors.highlightBackground,
-          color: highlightColors.textColor,
-        }
-      : { background: 'transparent' };
+  const highlightStyle = highlightColors
+    ? {
+        background: highlightColors.highlightBackground,
+        color: highlightColors.textColor,
+      }
+    : { background: 'transparent' };
 
   return (
     <span className='flex'>

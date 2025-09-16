@@ -6,15 +6,9 @@ const CONTENT_CLASSES = 'flex items-center gap-2 px-2 overflow-x-auto';
 interface LineContentProps {
   parts: DiffLine['parts'];
   language: string;
-  isMultipleParts: boolean;
   isDark: boolean;
 }
-export default function LineContent({
-  parts,
-  language,
-  isMultipleParts,
-  isDark,
-}: LineContentProps) {
+export default function LineContent({ parts, language, isDark }: LineContentProps) {
   return (
     <div className={CONTENT_CLASSES}>
       {parts.map((part, partIndex) => (
@@ -22,7 +16,6 @@ export default function LineContent({
           key={`${partIndex}-${part.content}`}
           part={part}
           language={language}
-          isMultipleParts={isMultipleParts}
           isDark={isDark}
         />
       ))}

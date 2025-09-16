@@ -33,7 +33,6 @@ export default function DiffLineItem({ line, fileExtension, lineType }: DiffLine
   const language = getLanguageFromExtension(fileExtension);
   const colors = getThemeColors(isDark)[lineType];
 
-  const isMultipleParts = line.parts.length > 1;
   const lineNumber = lineType === LINE_TYPES.ADDED ? (line.newN ?? 0) : (line.oldN ?? 0);
 
   return (
@@ -42,12 +41,7 @@ export default function DiffLineItem({ line, fileExtension, lineType }: DiffLine
 
       <LinePrefix lineType={lineType} isDark={isDark} />
 
-      <LineContent
-        parts={line.parts}
-        language={language}
-        isMultipleParts={isMultipleParts}
-        isDark={isDark}
-      />
+      <LineContent parts={line.parts} language={language} isDark={isDark} />
     </div>
   );
 }
